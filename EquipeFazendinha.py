@@ -13,8 +13,8 @@ def ResistenciaIsolamentoEletrico():
     resistencia['muito_baixa'] = fuzz.trimf(resistencia.universe, [0, 3, 6])
     resistencia['baixa'] = fuzz.trimf(resistencia.universe, [3, 6, 15])
     resistencia['media_baixa'] = fuzz.trimf(resistencia.universe, [6, 15, 30])
-    resistencia['media'] = fuzz.trimf(resistencia.universe, [30, 40, 50])
-    resistencia['media_alta'] = fuzz.trimf(resistencia.universe, [50, 60, 70])
+    resistencia['media'] = fuzz.trimf(resistencia.universe, [30, 45, 60])
+    resistencia['media_alta'] = fuzz.trimf(resistencia.universe, [50, 65, 80])
     resistencia['alta'] = fuzz.trimf(resistencia.universe, [70, 90, 100])
 
 
@@ -122,8 +122,19 @@ def CorrenteDePartida():
         simulador.input['corrente_partida'] = z
         simulador.compute()
 
+        valorfinal = simulador.output['risco']
         print(f"Corrente de Partida: {z}")
-        print(f"Risco: {simulador.output['risco']:.2f}%")
+        print(f"Risco: {valorfinal:.2f}%")
+
+        if valorfinal <= 33:
+            categoria = 'baixo'
+            print(f"Risco: {categoria} ")
+        elif valorfinal <= 66:
+            categoria = 'medio'
+            print(f"Risco: {categoria} ")
+        else:
+            categoria = 'alto'
+            print(f"Risco: {categoria} ")
 
         # Visualização dos gráficos
         corrente_partida.view(sim=simulador)
@@ -179,8 +190,19 @@ def CargaAplicada():
         simulador.input['CargaAplicada'] = z
         simulador.compute()
 
+        valorfinal = simulador.output['risco']
         print(f"Carga aplicada ao motor: {z}%")
-        print(f"Risco: {simulador.output['risco']:.2f}%")
+        print(f"Risco: {valorfinal:.2f}%")
+
+        if valorfinal <= 33:
+            categoria = 'baixo'
+            print(f"Risco: {categoria} ")
+        elif valorfinal <= 66:
+            categoria = 'medio'
+            print(f"Risco: {categoria} ")
+        else:
+            categoria = 'alto'
+            print(f"Risco: {categoria} ")
 
         # Visualização dos gráficos
         CargaAplicada.view(sim=simulador)
@@ -235,8 +257,19 @@ def TemperaturaAmbiente():
         simulador.input['TemperaturaAmbiente'] = z
         simulador.compute()
 
+        valorfinal = simulador.output['risco']
         print(f"Temperatura Ambiente: {z}° Celsius")
-        print(f"Risco: {simulador.output['risco']:.2f}%")
+        print(f"Risco: {valorfinal:.2f}%")
+
+        if valorfinal <= 33:
+            categoria = 'baixo'
+            print(f"Risco: {categoria} ")
+        elif valorfinal <= 66:
+            categoria = 'medio'
+            print(f"Risco: {categoria} ")
+        else:
+            categoria = 'alto'
+            print(f"Risco: {categoria} ")
 
         # Visualização dos gráficos
         TemperaturaAmbiente.view(sim=simulador)
@@ -293,11 +326,25 @@ def DesbalanceamentodeCarga():
         if not (0 <= z <= 3):
             raise ValueError("Valor fora do intervalo permitido (0 a 3).")
 
+       
         simulador.input['Desbalanceamentodecarga'] = z
         simulador.compute()
 
+        valorfinal = simulador.output['risco']
         print(f"Desbalanceamento de Carga: {z}%")
-        print(f"Risco: {simulador.output['risco']:.2f}%")
+        print(f"Risco: {valorfinal:.2f}%")
+
+
+        if valorfinal <= 33:
+            categoria = 'baixo'
+            print(f"Risco: {categoria} ")
+        elif valorfinal <= 66:
+            categoria = 'medio'
+            print(f"Risco: {categoria} ")
+        else:
+            categoria = 'alto'
+            print(f"Risco: {categoria} ")
+
 
         # Visualização dos gráficos
         Desbalanceamentodecarga .view(sim=simulador)
@@ -324,7 +371,7 @@ def main():
         DesbalanceamentodeCarga()
     else:
         print("Digite um valor entre 1 e 5 ")
-        return
+        return main
     
 
 if __name__ == '__main__':
